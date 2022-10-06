@@ -45,8 +45,6 @@ for (int i = 0; i < numberOfPeople; i++) {
 	decimal hourlyWage = 0.0M;
 	hourlyWage = rectifyWage(integerWages[i]);
 	rectifiedWages[i] = hourlyWage;
-
-	// Console.WriteLine($"${rectifiedWages[i]:0.00}");
 }
 
 // Calculate yearly salaries and store in array
@@ -58,7 +56,9 @@ for (int i = 0; i < numberOfPeople; i++) {
 	yearlySalaries[i] = yearlySalaryValue;
 }
 
+
 // --------------------------------------------------------------
+
 
 // Generate array of CV pairs from lists of consonants and vowels
 string[] consonants = new string[] {
@@ -88,7 +88,9 @@ for (int i = 0; i < consonants.Length; i++) {
 	}
 }
 
+
 // --------------------------------------------------------------
+
 
 // Generate array of names / CV-pair combinations
 int namesLength = pairsLength * pairsLength;
@@ -113,7 +115,9 @@ for (int i = 0; i < pairsCV.Length; i++) {
 	}
 }
 
+
 // --------------------------------------------------------------
+
 
 // Pseudorandom |-> Pseudo + (r)andom |-> Pseudor --> "Suitor"; ∴ Pseudorandom --> Suitor
 // I'm hilarious
@@ -136,15 +140,9 @@ for (int i = 0; i < 1000; i++) {
 
 		case true:
 			goto Retry;
-			break;
 
 		case false:
 			uniqueIndices[i] = generatedIndex;
-			break;
-
-		// green TODO: Create dedicated error section at the bottom
-		default:
-			goto Retry;
 			break;
 	}
 }
@@ -215,11 +213,13 @@ for (int i = 0; i < numberOfPeople; i++) {
 
 
 // Output Printing
+Console.Clear();
 for (int i = 0; i < numberOfPeople; i++) {
 
 	int characterCount = 0;
 	string justify = "";
 
+	// Justify printed output based on name length
 	foreach (char letter in selectedNames[i]) {
 		characterCount += 1;
 	}
@@ -237,16 +237,46 @@ for (int i = 0; i < numberOfPeople; i++) {
 	Console.WriteLine($"{selectedNames[i]}: {justify} ${rectifiedWages[i]:00.00}/hr = ${yearlySalaries[i]:0,0.00}/yr | {jobTitles[i]}");
 }
 
+
+// -------------------------------------------------------------------------------
+
+// Note: `Snippet.Break()` is a custom method I created to insert a blank line.
+// Snippet.cs will be added to as I create more snippets.
+
 // Addendum Error Log
 Snippet.Break();
 Console.WriteLine("|[ Error Log ]|");
 Snippet.Break();
 
+Console.WriteLine("Duplicate Name Check:");
+for (int i = 0; i < selectedNames.Length; i++) {
+	string errorFlag = "[Duplicate Name Found]";
+	string nameAlpha = selectedNames[i];
+
+	for (int j = 0; j < selectedNames.Length; j++) {
+		string nameBeta = selectedNames[j];	
+
+		if (j == i) { // Skip the current, primary name
+			break;
+		}
+		else if (nameAlpha == nameBeta) {
+
+			Console.WriteLine($"{errorFlag} : [{i}]{nameAlpha} and [{j}]{nameBeta}");
+		}
+	}
+}
+
+Snippet.Break();
+
+Console.WriteLine("Out-of-Bound Wage Check:");
 foreach (int wage in integerWages) {
 
 	string errorFlag = "";
 	if (wage < wageLowerBound || wage > wageUpperBound) {
 		errorFlag = "[Wage Out of Bounds]";
-		Console.WriteLine($"{wage} {errorFlag}");
+		Console.WriteLine($"{errorFlag} : {wage}");
 	}
 }
+
+Snippet.Break();
+Console.ReadKey();

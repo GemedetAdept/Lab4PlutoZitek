@@ -92,9 +92,7 @@ for (int i = 0; i < consonants.Length; i++) {
 
 // Generate array of names / CV-pair combinations
 int namesLength = pairsLength * pairsLength;
-Console.WriteLine($"nameLength = {namesLength}");
 string[] namesArray = new string[namesLength];
-Console.WriteLine($"namesArray = {namesArray.Length}");
 
 int nameIndex = 0;
 for (int i = 0; i < pairsCV.Length; i++) {
@@ -128,12 +126,11 @@ int rnJesus(int lowerBound, int upperBound) {
 
 // Select 1,000 random names by generating unique, pseudorandom index values
 int[] uniqueIndices = new int[numberOfPeople];
-bool indexGeneratorLoop = true;
 
 // Fill array with random, unique indices
 for (int i = 0; i < 1000; i++) {
 
-Retry:
+	Retry:
 	int generatedIndex = suitor.Next(0, namesArray.Length-1);
 	switch (uniqueIndices.Contains(generatedIndex)) {
 
@@ -150,53 +147,99 @@ Retry:
 			goto Retry;
 			break;
 	}
-
-	Console.WriteLine(generatedIndex);
 }
 
 // Fill array with the respective name for each index
-string[] selectedNames = new string[];
+string[] selectedNames = new string[numberOfPeople];
+
+for (int i = 0; i < 1000; i++) {
+	string indexedName;
+	int index = 0;
+
+	index = uniqueIndices[i];
+	indexedName = namesArray[index];
+	selectedNames[i] = indexedName;
+
+	// Console.WriteLine($"[{index}]: {indexedName}");
+}
 
 
+// --------------------------------------------------------------
 
 
+// Generate job titles from adjectives and agent nouns
+string[] jobAdjectives = new string[] {
+	"Average", "Awful", "Bad", "Better", "Bewildered", "Bored", 
+	"Brave", "Busy", "Careful", "Cheerful", "Clever", "Clumsy", 
+	"Concerned", "Condemned", "Curious", "Dangerous", "Defiant", 
+	"Distinct", "Doubtful", "Eager", "Energetic", "Evil", "Fancy", 
+	"Foolish", "Fragile", "Frantic", "Gifted", "Horrible", "Inquisitive", 
+	"Jittery", "Lively", "Mysterious", "Nervous", "Odd", "Old-Fashioned", 
+	"Perfect", "Plain", "Powerful", "Puzzled", "Relieved", "Sore", 
+	"Splendid", "Strange", "Talented", "Terrible", "Tired", "Troubled", 
+	"Uptight", "Weary", "Worried", "Wrong",
+};
+
+string[] jobAgentNouns = new string[] {
+	"Abolisher", "Advertiser", "Anesthetizer", "Arguer", "Axe Murderer", 
+	"Bagger", "Baker", "Bootlegger", "Buyer", "Campaigner", "Cheater", 
+	"Choreographer", "Climber", "Collector", "Creator", "Dancer", 
+	"Defender", "Designer", "Destroyer", "Digger", "Diver", "Emancipator", 
+	"Engineerer", "Entertainer", "Fascilitator", "Farmer", "Fixer", 
+	"Gatherer", "Governor", "Grader", "Healer", "Helper", "Impeacher", 
+	"Improviser", "Inquirer", "Interrogator", "Inventor", "Jailer", 
+	"Juggler", "Kayaker", "Leader", "Lockpicker", "Negotiator", "Pacifier", 
+	"Patroller", "Performer", "Pillager", "Planner", "Planter", "Plunderer", 
+	"Poller", "Programmer", "Pronouncer", "Protector", "Reader", "Recorder", 
+	"Recycler", "Refiner", "Reformer", "Runner", "Salvager", "Scavenger", 
+	"Seeder", "Seller", "Shepherder", "Singer", "Sleeper", "Smuggler", 
+	"Stealer", "Swindler", "Talker", "Teacher", "Terraformer", "Tester", 
+	"Trader", "Unifier", "Upseller", "Vetter", "Waterer",
+};
+
+string[] jobTitles = new string[numberOfPeople];
+
+for (int i = 0; i < numberOfPeople; i++) {
+
+	string combined = "";
+	string adjective = jobAdjectives[rnJesus(0, jobAdjectives.Length-1)];
+	string agentNoun = jobAgentNouns[rnJesus(0, jobAgentNouns.Length-1)];
+
+	combined = $"{adjective} {agentNoun}";
+	jobTitles[i] = combined;
+
+}
 
 
 // -------------------------------------------------------------------------------
 
+
 // Output Printing
 for (int i = 0; i < numberOfPeople; i++) {
 
-	// Console.WriteLine($"${rectifiedWages[i]:00.00}/hr === ${yearlySalaries[i]:0.00}/yr");
+	int characterCount = 0;
+	string justify = "";
+
+	foreach (char letter in selectedNames[i]) {
+		characterCount += 1;
+	}
+
+	if (characterCount == 4) {
+		justify = "  ";
+	}
+	else if (characterCount == 5) {
+		justify = " ";
+	}
+	else {
+		justify = "";
+	}
+
+	Console.WriteLine($"{selectedNames[i]}: {justify} ${rectifiedWages[i]:00.00}/hr = ${yearlySalaries[i]:0,0.00}/yr | {jobTitles[i]}");
 }
 
 // Addendum Error Log
 Snippet.Break();
 Console.WriteLine("|[ Error Log ]|");
-Snippet.Break();
-
-Console.WriteLine("|[ Unique Index Generation ]|");
-string flagIndexDuplicate = "";
-for (int i = 0; i < uniqueIndices.Length-1; i++) {
-
-	foreach (int index in uniqueIndices) {
-		flagIndexDuplicate = $"Duplicates: {index} and {uniqueIndices[i]}.";
-
-		switch (index == uniqueIndices[i]) {
-
-			case true:
-				Console.WriteLine(flagIndexDuplicate);
-				break;
-			case false:
-				continue;
-				break;
-			default:
-				Console.WriteLine("[Boolean Switch Statement: Return Default Error]");
-				break;
-		}
-	}
-}
-
 Snippet.Break();
 
 foreach (int wage in integerWages) {

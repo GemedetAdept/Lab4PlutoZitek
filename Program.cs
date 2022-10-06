@@ -1,4 +1,6 @@
 ﻿// 2022-09-29; CS 1400; Lab 4
+using System.Linq;
+
 
 // Calculate yearly salary from inputted values
 decimal yearlySalary(decimal hourlyWage, int hoursPerWeek, int weeksPerYear) {
@@ -115,6 +117,53 @@ for (int i = 0; i < pairsCV.Length; i++) {
 
 // --------------------------------------------------------------
 
+// Pseudorandom |-> Pseudo + (r)andom |-> Pseudor --> "Suitor"; ∴ Pseudorandom --> Suitor
+// I'm hilarious
+Random suitor = new Random(); 
+
+int rnJesus(int lowerBound, int upperBound) {
+	int index = suitor.Next(lowerBound, upperBound);
+	return index;
+}
+
+// Select 1,000 random names by generating unique, pseudorandom index values
+int[] uniqueIndices = new int[numberOfPeople];
+bool indexGeneratorLoop = true;
+
+// Fill array with random, unique indices
+for (int i = 0; i < 1000; i++) {
+
+Retry:
+	int generatedIndex = suitor.Next(0, namesArray.Length-1);
+	switch (uniqueIndices.Contains(generatedIndex)) {
+
+		case true:
+			goto Retry;
+			break;
+
+		case false:
+			uniqueIndices[i] = generatedIndex;
+			break;
+
+		// green TODO: Create dedicated error section at the bottom
+		default:
+			goto Retry;
+			break;
+	}
+
+	Console.WriteLine(generatedIndex);
+}
+
+// Fill array with the respective name for each index
+string[] selectedNames = new string[];
+
+
+
+
+
+
+// -------------------------------------------------------------------------------
+
 // Output Printing
 for (int i = 0; i < numberOfPeople; i++) {
 
@@ -122,8 +171,34 @@ for (int i = 0; i < numberOfPeople; i++) {
 }
 
 // Addendum Error Log
-Console.WriteLine("\n");
+Snippet.Break();
 Console.WriteLine("|[ Error Log ]|");
+Snippet.Break();
+
+Console.WriteLine("|[ Unique Index Generation ]|");
+string flagIndexDuplicate = "";
+for (int i = 0; i < uniqueIndices.Length-1; i++) {
+
+	foreach (int index in uniqueIndices) {
+		flagIndexDuplicate = $"Duplicates: {index} and {uniqueIndices[i]}.";
+
+		switch (index == uniqueIndices[i]) {
+
+			case true:
+				Console.WriteLine(flagIndexDuplicate);
+				break;
+			case false:
+				continue;
+				break;
+			default:
+				Console.WriteLine("[Boolean Switch Statement: Return Default Error]");
+				break;
+		}
+	}
+}
+
+Snippet.Break();
+
 foreach (int wage in integerWages) {
 
 	string errorFlag = "";
